@@ -1,5 +1,14 @@
 import Logic.Basic
 import Logic.Cast.Basic
+import Logic.Equiv.Basic
+import Logic.Equiv.Fun
+import Logic.Equiv.List
+import Logic.Equiv.Option
+import Logic.Equiv.Prod
+import Logic.Equiv.Quotient
+import Logic.Equiv.Sigma
+import Logic.Equiv.Subtype
+import Logic.Equiv.Sum
 import Logic.Prop.Classes
 import Logic.Prop.Lemmas
 import Logic.Prop.Tactics

@@ -1,5 +1,8 @@
 import Std
 
+-- missing from Std
+alias ⟨not_exists_of_forall_not, _⟩ := not_exists
+
 register_simp_attr simp_cast
 
 infix:50 " ≅ " => HEq

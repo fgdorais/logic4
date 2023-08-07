@@ -34,7 +34,7 @@ protected abbrev Irreflexive.irrfl {α} {r : α → α → Prop} [Irreflexive r]
 theorem Irreflexive.ne_of {α} {r : α → α → Prop} [Irreflexive r] : {x y : α} → r x y → x ≠ y
 | _, _, h, rfl => Irreflexive.irrfl h
 
-instance (α) : Irreflexive (α:=α) (.≠.) := ⟨λ x h => h (Eq.refl x)⟩
+instance (α) : Irreflexive (α:=α) (.≠.) := ⟨fun x h => h (Eq.refl x)⟩
 
 /-! ## Symmetry -/
 
@@ -47,9 +47,9 @@ class Symmetric (r : α → α → Prop) : Prop where
 @[default_instance]
 instance {α} (r : α → α → Prop) [Symmetric r] : HSymmetric r r := ⟨Symmetric.symm⟩
 
-abbrev Asymmetric (r : α → α → Prop) := HSymmetric r (¬ r . .)
+abbrev Asymmetric (r : α → α → Prop) := HSymmetric r (¬r . .)
 
-protected def Asymmetric.asymm {α} {r : α → α → Prop} [Asymmetric r] {x y : α} : r x y → ¬ r y x := HSymmetric.symm (r:=r) (s:=(¬ r . .))
+protected def Asymmetric.asymm {α} {r : α → α → Prop} [Asymmetric r] {x y : α} : r x y → ¬r y x := HSymmetric.symm (r:=r) (s:=(¬r . .))
 
 instance (α) : Symmetric (α:=α) (.=.) := ⟨Eq.symm⟩
 instance (α) : Symmetric (α:=α) (.≠.) := ⟨Ne.symm⟩
@@ -76,7 +76,7 @@ instance {α} (r : α → α → Prop) [Symmetric r] : Symmetric (TC r) where
 
 /-! ## Antiymmetry -/
 
-class HAntisymmetric {α} (r : α → α → Prop) (s : outParam (α → α → Prop)) : Prop where
+class HAntisymmetric {α} (r : α → α → Prop) (s : outParam <| α → α → Prop) : Prop where
   protected antisymm {x y} : r x y → r y x → s x y
 
 class Antisymmetric {α} (r : α → α → Prop) : Prop where
@@ -88,14 +88,14 @@ instance {α} (r : α → α → Prop) [Antisymmetric r] : HAntisymmetric r Eq w
 
 instance : HAntisymmetric (.→.) (.↔.) := ⟨Iff.intro⟩
 
-abbrev WeaklyConnex {α} (r : α → α → Prop) := Antisymmetric (fun x y => ¬ r y x)
+abbrev WeaklyConnex {α} (r : α → α → Prop) := Antisymmetric (fun x y => ¬r y x)
 
-abbrev WeaklyConnex.connex {α} {r : α → α → Prop} [WeaklyConnex r] {x y} : ¬ r y x → ¬ r x y → x = y :=
-  Antisymmetric.antisymm (r := fun x y => ¬ r y x)
+abbrev WeaklyConnex.connex {α} {r : α → α → Prop} [WeaklyConnex r] {x y} : ¬r y x → ¬r x y → x = y :=
+  Antisymmetric.antisymm (r := fun x y => ¬r y x)
 
 /-! ## Transitivity -/
 
-class HTransitive {α β γ} (r : α → β → Prop) (s : β → γ → Prop) (t : outParam (α → γ → Prop)) : Prop where
+class HTransitive {α β γ} (r : α → β → Prop) (s : β → γ → Prop) (t : outParam <| α → γ → Prop) : Prop where
   protected trans {x y z} : (left : r x y) → (right : s y z) → t x z
 
 instance {α β γ} (r : α → β → Prop) (s : β → γ → Prop) (t : α → γ → Prop) [HTransitive r s t] : Trans r s t where
@@ -109,11 +109,11 @@ instance {α} (r : α → α → Prop) [Transitive r] : HTransitive r r r := ⟨
 
 instance (α) : Transitive (α:=α) (.=.) := ⟨Eq.trans⟩
 instance (α β γ) : HTransitive (α:=α) (β:=β) (γ:=γ) (.≅.) (.≅.) (.≅.) := ⟨HEq.trans⟩
-instance {α β} (r : α → β → Prop) : HTransitive (.=.) r r := ⟨λ he hr => he ▸ hr⟩
-instance {α β} (r : α → β → Prop) : HTransitive r (.=.) r := ⟨λ hr he => he ▸ hr⟩
+instance {α β} (r : α → β → Prop) : HTransitive (.=.) r r := ⟨fun he hr => Eq.substr he hr⟩
+instance {α β} (r : α → β → Prop) : HTransitive r (.=.) r := ⟨fun hr he => Eq.subst he hr⟩
 instance (α) [Setoid α] : Transitive (α:=α) (.≈.) := ⟨Setoid.trans⟩
 instance (α) [Setoid α] : Transitive (α:=α) Setoid.r := ⟨Setoid.trans⟩
-instance : Transitive (.→.) := ⟨λ h₁ h₂ h => h₂ (h₁ h)⟩
+instance : Transitive (.→.) := ⟨fun h₁ h₂ h => h₂ (h₁ h)⟩
 instance : Transitive (.↔.) := ⟨Iff.trans⟩
 instance {α} (r : α → α → Prop) : Transitive (TC r) := ⟨TC.trans _ _ _⟩
 
@@ -121,7 +121,7 @@ instance {α} (r : α → α → Prop) [Irreflexive r] [Transitive r] : Asymmetr
 
 /-! ## Euclidean Property -/
 
-class HEuclidean {α β γ} (r : α → β → Prop) (s : α → γ → Prop) (t : outParam (β → γ → Prop)) : Prop where
+class HEuclidean {α β γ} (r : α → β → Prop) (s : α → γ → Prop) (t : outParam <| β → γ → Prop) : Prop where
   protected eucl {x y z} : (left : r x y) → (right : s x z) → t y z
 
 class Euclidean {α} (r : α → α → Prop) : Prop where
@@ -145,10 +145,10 @@ def Euclidean.toTransitive {α} (r : α → α → Prop) [Symmetric r] [Euclidea
 /-! ## Totality -/
 
 class HTotal {α β} (r : α → β → Prop) (s : β → α → Prop) : Prop where
-  protected total (x y) : (r x y) ∨ (s y x)
+  protected total (x y) : r x y ∨ s y x
 
 class Total {α} (r : α → α → Prop) : Prop where
-  protected total (x y) : (r x y) ∨ (r y x)
+  protected total (x y) : r x y ∨ r y x
 
 @[default_instance]
 instance {α} (r : α → α → Prop) [Total r] : HTotal r r := ⟨Total.total⟩
@@ -164,7 +164,7 @@ class Comparison {α} (r : α → α → Prop) : Prop where
 @[default_instance]
 instance {α} (r : α → α → Prop) [Comparison r] : HComparison r r := ⟨Comparison.compare⟩
 
-def Transitive.toComparison {α} (r : α → α → Prop) [ComplementedRel r] [Transitive r] : Comparison fun x y => ¬ r y x where
+def Transitive.toComparison {α} (r : α → α → Prop) [ComplementedRel r] [Transitive r] : Comparison fun x y => ¬r y x where
   compare := by
     intro x y nxy z
     by_cases r z x using Complemented with
@@ -177,7 +177,7 @@ def Transitive.toComparison {α} (r : α → α → Prop) [ComplementedRel r] [T
       apply nxy
       exact Transitive.trans hzy hxz
 
-instance Comparison.toTransitive {α} (r : α → α → Prop) [Comparison r] : Transitive fun x y => ¬ r y x where
+instance Comparison.toTransitive {α} (r : α → α → Prop) [Comparison r] : Transitive fun x y => ¬r y x where
   trans := by
     intros x y z nxy nyz hxz
     cases Comparison.compare hxz y with
@@ -195,7 +195,7 @@ class Connex {α} (r : α → α → Prop) : Prop where
 @[default_instance]
 instance {α} (r : α → α → Prop) [Connex r] : HConnex r (.≠.) := ⟨Connex.connex⟩
 
-def Connex.toAntisymmetric {α} (r : α → α → Prop) [StableEq α] [Connex r] : Antisymmetric fun x y => ¬ r y x where
+def Connex.toAntisymmetric {α} (r : α → α → Prop) [StableEq α] [Connex r] : Antisymmetric fun x y => ¬r y x where
   antisymm := by
     intro x y nxy nyx
     by_contradiction
@@ -204,7 +204,7 @@ def Connex.toAntisymmetric {α} (r : α → α → Prop) [StableEq α] [Connex r
       | inl hyx => exact nyx hyx
       | inr hxy => exact nxy hxy
 
-def Antisymmetric.toConnex {α} (r : α → α → Prop) [WeaklyComplementedRel r] [Antisymmetric r] : Connex fun x y => ¬ r y x where
+def Antisymmetric.toConnex {α} (r : α → α → Prop) [WeaklyComplementedRel r] [Antisymmetric r] : Connex fun x y => ¬r y x where
   connex := by
     intro x y hne
     apply And.deMorgan; intro ⟨hyx, hxy⟩

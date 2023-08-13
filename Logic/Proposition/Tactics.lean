@@ -1,5 +1,4 @@
-import Logic.Basic
-import Logic.Prop.Classes
+import Logic.Proposition.Classes
 
 open Lean
 

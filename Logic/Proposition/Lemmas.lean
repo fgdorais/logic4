@@ -1,5 +1,5 @@
-import Logic.Prop.Classes
-import Logic.Prop.Tactics
+import Logic.Proposition.Classes
+import Logic.Proposition.Tactics
 
 namespace Logic
 

@@ -1,4 +1,4 @@
-import Std
+import Logic.Basic
 
 namespace Logic
 variable {β : α → Sort _} {a₁ a₂ a₃ : α}

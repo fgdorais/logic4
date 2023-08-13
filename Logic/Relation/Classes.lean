@@ -1,5 +1,5 @@
 import Logic.Basic
-import Logic.Prop.Lemmas
+import Logic.Proposition.Lemmas
 
 namespace Logic
 
@@ -207,7 +207,7 @@ def Connex.toAntisymmetric {α} (r : α → α → Prop) [StableEq α] [Connex r
 def Antisymmetric.toConnex {α} (r : α → α → Prop) [WeaklyComplementedRel r] [Antisymmetric r] : Connex fun x y => ¬r y x where
   connex := by
     intro x y hne
-    apply And.deMorgan; intro ⟨hyx, hxy⟩
+    apply and_deMorgan; intro ⟨hyx, hxy⟩
     apply hne
     exact Antisymmetric.antisymm hxy hyx
 

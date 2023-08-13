@@ -9,6 +9,7 @@ import Logic.Equiv.Quotient
 import Logic.Equiv.Sigma
 import Logic.Equiv.Subtype
 import Logic.Equiv.Sum
+import Logic.Predicate.Classes
 import Logic.Proposition.Classes
 import Logic.Proposition.Lemmas
 import Logic.Proposition.Tactics

@@ -1,5 +1,6 @@
 import Logic.Basic
-import Logic.Cast.Basic
+import Logic.Cast.DCast
+import Logic.Cast.DEq
 import Logic.Equiv.Basic
 import Logic.Equiv.Fun
 import Logic.Equiv.List

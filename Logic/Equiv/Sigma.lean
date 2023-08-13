@@ -1,5 +1,5 @@
 import Logic.Equiv.Basic
-import Logic.Cast.Basic
+import Logic.Cast.DCast
 import Logic.Relation.Tactics
 
 namespace Sigma

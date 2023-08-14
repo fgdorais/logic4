@@ -1,5 +1,5 @@
 import Logic.Basic
-import Logic.Cast.DEq
+import Logic.Equality.DEq
 
 /-- Dependent type casting -/
 def dcast {motive : α → Sort _} (h : a = b) (t : motive a) : motive b := Eq.ndrec t h

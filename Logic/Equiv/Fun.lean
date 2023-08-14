@@ -1,6 +1,6 @@
 import Logic.Equiv.Basic
 import Logic.Relation.Tactics
-import Logic.Cast.DCast
+import Logic.Equality.DCast
 
 namespace Fun
 

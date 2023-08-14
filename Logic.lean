@@ -1,6 +1,6 @@
 import Logic.Basic
-import Logic.Cast.DCast
-import Logic.Cast.DEq
+import Logic.Equality.DCast
+import Logic.Equality.DEq
 import Logic.Equiv.Basic
 import Logic.Equiv.Fun
 import Logic.Equiv.List
@@ -14,3 +14,5 @@ import Logic.Predicate.Classes
 import Logic.Proposition.Classes
 import Logic.Proposition.Lemmas
 import Logic.Proposition.Tactics
+import Logic.Relation.Classes
+import Logic.Relation.Tactics

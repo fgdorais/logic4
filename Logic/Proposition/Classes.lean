@@ -2,6 +2,30 @@ import Logic.Basic
 
 namespace Logic
 
+/-! ## Decidable Propositions -/
+
+/-- Find a `Decidable` instance for a given proposition -/
+def inferDecidable (a : Prop) [inst : Decidable a] := inst
+
+set_option checkBinderAnnotations false in
+/-- Class for lists of decidable propositions -/
+class inductive DecidableList : List Prop → Type
+| instNil : DecidableList []
+| instCons (a as) : [Decidable a] → [DecidableList as] → DecidableList (a :: as)
+attribute [instance] DecidableList.instNil DecidableList.instCons
+
+/-- Head of a `DecidableList` -/
+def DecidableList.head (a as) : [DecidableList (a :: as)] → Decidable a
+| instCons .. => inferInstance
+
+/-- Tail of a `DecidableList` -/
+def DecidableList.tail (a as) : [DecidableList (a :: as)] → DecidableList as
+| instCons .. => inferInstance
+
+instance DecidableList.instMap (a : α → Prop) [DecidablePred a] : (xs : List α) → DecidableList (xs.map a)
+| [] => instNil
+| _::xs => let _ := instMap a xs; instCons ..
+
 /-! ## Stable Propositions -/
 
 /-- Class of stable propositions -/
@@ -185,6 +209,14 @@ instance WeaklyComplementedList.instMap (a : α → Prop) [WeaklyComplementedPre
 | _::xs => let _ := instMap a xs; instCons ..
 
 /-! ## Instances -/
+
+instance instAll : (as : List Prop) → [DecidableList as] → Decidable (All as)
+| [], _ => all_nil_eq ▸ inferDecidable True
+| a::as, DecidableList.instCons .. => let _ := instAll as; all_cons_eq .. ▸ inferDecidable (a ∧ All as)
+
+instance instAny : (as : List Prop) → [DecidableList as] → Decidable (Any as)
+| [], _ => any_nil_eq ▸ inferDecidable False
+| a::as, DecidableList.instCons .. => let _ := instAny as; any_cons_eq .. ▸ inferDecidable (a ∨ Any as)
 
 /- Decidable propositions are complemented -/
 instance (a) [Decidable a] : Complemented a := ⟨Decidable.em a⟩

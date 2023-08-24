@@ -7,10 +7,7 @@ register_simp_attr simp_cast
 
 infix:50 " ≅ " => HEq
 
-attribute [ext] Prod PProd Sigma PSigma
-attribute [ext] Subtype.eq
-
-macro "absurd " h:term : tactic => `(tactic| first | apply absurd _ $h | apply absurd $h)
+attribute [ext] Prod PProd Sigma PSigma Subtype.eq
 
 open Lean Meta Elab
 
@@ -45,4 +42,3 @@ elab "right" : tactic => Tactic.withMainContext do
   let gs ← Tactic.right (← Tactic.getMainGoal)
   Term.synthesizeSyntheticMVarsNoPostponing
   Tactic.replaceMainGoal gs
-

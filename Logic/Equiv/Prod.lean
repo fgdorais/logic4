@@ -1,6 +1,7 @@
 import Logic.Equiv.Basic
 
 namespace Prod
+open Logic
 
 def idLeftEquiv.{u} (β) : Equiv (PUnit.{u+1} × β) β where
   fwd := Prod.snd

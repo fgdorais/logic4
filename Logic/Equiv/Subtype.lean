@@ -1,6 +1,7 @@
 import Logic.Equiv.Basic
 
 namespace Subtype
+open Logic
 variable {α₁ α₂ : Sort _} {p₁ : α₁ → Prop} {p₂ : α₂ → Prop}
 
 protected def equiv (e : Equiv α₁ α₂) (h : ∀ x, p₁ x ↔ p₂ (e.fwd x)) : Equiv { x // p₁ x } { x // p₂ x} where

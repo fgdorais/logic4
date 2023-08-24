@@ -1,6 +1,7 @@
 import Logic.Equiv.Basic
 
 namespace Sum
+open Logic
 
 def idLeftEquiv (β) : Equiv (Sum Empty β) β where
   fwd | inr b => b

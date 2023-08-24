@@ -1,6 +1,7 @@
 import Logic.Equiv.Basic
 
 namespace List
+open Logic
 variable {α β : Type _}
 
 def equiv (e : Equiv α β) : Equiv (List α) (List β) where

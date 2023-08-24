@@ -1,6 +1,7 @@
 import Logic.Equiv.Basic
 
 namespace Option
+open Logic
 
 def equiv {α β} (e : Equiv α β) : Equiv (Option α) (Option β) where
   fwd

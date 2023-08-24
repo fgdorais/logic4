@@ -2,6 +2,7 @@ import Logic.Equiv.Basic
 import Logic.Relation.Tactics
 
 namespace Quotient
+open Logic
 
 def equiv {α₁ α₂} {s₁ : Setoid α₁} {s₂ : Setoid α₂} (e : Equiv α₁ α₂) (H : ∀ x y : α₁, x ≈ y ↔ e.fwd x ≈ e.fwd y) : Equiv (Quotient s₁) (Quotient s₂) where
   fwd x := Quotient.liftOn x (fun x => Quotient.mk s₂ (e.fwd x)) $ by

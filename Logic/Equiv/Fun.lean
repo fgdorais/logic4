@@ -3,6 +3,7 @@ import Logic.Relation.Tactics
 import Logic.Equality.DCast
 
 namespace Fun
+open Logic
 
 def equivND {α₁ α₂ β₁ β₂} (e : Equiv α₁ α₂) (f : Equiv β₁ β₂) : Equiv (α₁ → β₁) (α₂ → β₂) where
   fwd h₁ := f.fwd ∘ h₁ ∘ e.rev

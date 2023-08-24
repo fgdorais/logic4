@@ -1,5 +1,7 @@
 import Logic.Basic
 
+namespace Logic
+
 structure Equiv.{u,v} (α : Sort u) (β : Sort v) : Sort (max 1 (max u v)) where
   fwd : α → β
   rev : β → α

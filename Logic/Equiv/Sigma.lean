@@ -3,6 +3,7 @@ import Logic.Equality.DCast
 import Logic.Relation.Tactics
 
 namespace Sigma
+open Logic
 
 def equivFst {α₁ α₂ : Type _} {β : α₁ → Type _} (e : Equiv α₁ α₂) : Equiv ((x₁ : α₁) × β x₁) ((x₂ : α₂) × β (e.rev x₂)) where
   fwd | ⟨x₁, y₁⟩ => ⟨e.fwd x₁, (e.rev_fwd x₁).symm ▸ y₁⟩

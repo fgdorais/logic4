@@ -1,4 +1,4 @@
-{"version": 5,
+{"version": 6,
  "packagesDir": "lake-packages",
  "packages":
  [{"git":
@@ -6,6 +6,7 @@
     "subDir?": null,
     "rev": "453364ebc67fff4d0e035aa895ae67a7d10ce74f",
     "opts": {},
-    "name": "Std",
+    "name": "std",
     "inputRev?": "nat-all",
-    "inherited": false}}]}
+    "inherited": false}}],
+ "name": "Logic"}

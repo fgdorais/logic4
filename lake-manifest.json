@@ -4,7 +4,7 @@
  [{"git":
    {"url": "https://github.com/fgdorais/std4",
     "subDir?": null,
-    "rev": "453364ebc67fff4d0e035aa895ae67a7d10ce74f",
+    "rev": "a6498172abde4f45b19fd83539b19699c79d1a2e",
     "opts": {},
     "name": "std",
     "inputRev?": "nat-all",

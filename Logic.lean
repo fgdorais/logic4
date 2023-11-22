@@ -1,5 +1,6 @@
 import Logic.Basic
 import Logic.Predicate.Classes
+import Logic.Prelude
 import Logic.Proposition.Classes
 import Logic.Proposition.Lemmas
 import Logic.Proposition.Tactics

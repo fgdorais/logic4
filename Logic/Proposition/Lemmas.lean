@@ -1,3 +1,7 @@
+/-
+Copyright © 2023 François G. Dorais. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+-/
 import Logic.Proposition.Classes
 import Logic.Proposition.Tactics
 
@@ -98,4 +102,3 @@ theorem nand_resolve_right : ¬(a ∧ b) → b → ¬a
 
 theorem nand_iff_not_or_not [WeaklyComplemented a] [WeaklyComplemented b] : ¬(a ∧ b) ↔ ¬a ∨ ¬b :=
   ⟨and_deMorgan, fun | .inl ha, ⟨h, _⟩ => ha h | .inr hb, ⟨_, h⟩ => hb h⟩
-

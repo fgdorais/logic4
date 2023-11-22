@@ -1,4 +1,3 @@
-import Logic.Equiv.Basic
 import Logic.Proposition.Classes
 import Logic.Proposition.Lemmas
 import Logic.Proposition.Tactics

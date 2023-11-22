@@ -1,6 +1,5 @@
 import Std
-
-register_simp_attr simp_cast
+import Extra
 
 infix:50 " ≅ " => HEq
 

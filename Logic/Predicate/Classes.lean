@@ -248,3 +248,10 @@ instance (β : α → Type _) [Markovian α] [(x : α) → Omniscient (β x)] : 
       exists x, y
     match Markovian.elim _ this with
     | ⟨x, ⟨y, h⟩⟩ => exists ⟨x, y⟩
+
+/-! ## Expermiental -/
+
+/-- Class for Disjunctive type pairs -/
+class Disjunctive (α β : Type _) : Prop where intro ::
+  elim (a : α → Prop) (b : β → Prop) [ComplementedPred a] [ComplementedPred b] :
+    ¬¬(∀ x y, a x ∨ b y) → ¬¬(∀ x, a x) ∨ ¬¬(∀ y, b y)

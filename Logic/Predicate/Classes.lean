@@ -54,7 +54,7 @@ instance : Omniscient Ordering where
       | ⟨.gt, _⟩ => contradiction
 
 instance instOmniscientFin : (n : Nat) → Omniscient (Fin n)
-  | 0 => .intro fun a _ => .inr fun .
+  | 0 => .intro fun a _ => .inr (nomatch .)
   | n+1 => .intro fun a _ => by
     have _ : Omniscient (Fin n) := instOmniscientFin n
     by_cases a 0, ∃ i, a (.succ i) using Complemented with

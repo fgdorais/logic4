@@ -7,4 +7,4 @@ package logic
 lean_lib Logic
 
 require std from git "https://github.com/leanprover/std4" @ "main"
-require extra from git "https://github.com/fgdorais/extra4" @ "stable"
+require extra from git "https://github.com/fgdorais/extra4" @ "main"

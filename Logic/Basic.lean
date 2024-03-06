@@ -40,8 +40,9 @@ inductive Any : List Prop → Prop
 | head : a → Any (a :: as)
 | tail : Any as → Any (a :: as)
 
+set_option pp.all true in
 theorem any_nil_eq : Any [] = False :=
-  propext ⟨fun ., False.elim⟩
+  propext ⟨(nomatch .), False.elim⟩
 
 theorem any_cons_eq (a as) : Any (a :: as) = (a ∨ Any as) :=
   propext ⟨fun | .head h => .inl h | .tail h => .inr h, fun | .inl h => .head h | .inr h => .tail h⟩

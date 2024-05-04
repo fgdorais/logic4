@@ -13,8 +13,8 @@ alias not_not_elim := Stable.by_contradiction
 
 /-! ## And -/
 
-alias and_left := And.left
-alias and_right := And.right
+-- alias and_left := And.left -- bug?
+-- alias and_right := And.right -- bug?
 alias and_intro := And.intro
 alias and_elim := And.elim
 

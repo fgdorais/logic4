@@ -1,0 +1,15 @@
+name = "logic"
+defaultTargets = ["Logic"]
+
+[[lean_lib]]
+name = "Logic"
+
+[[require]]
+name = "std"
+git = "https://github.com/leanprover/std4"
+rev = "main"
+
+[[require]]
+name = "extra"
+git = "https://github.com/fgdorais/extra4"
+rev = "main"

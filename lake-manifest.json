@@ -13,11 +13,11 @@
   {"url": "https://github.com/fgdorais/extra4",
    "type": "git",
    "subDir": null,
-   "rev": "824864d9e64bf087a21689139d7e3922fcecbca4",
+   "rev": "2cda672fbe6428ee757b89b3dd893708abd0914d",
    "name": "extra",
    "manifestFile": "lake-manifest.json",
    "inputRev": "main",
    "inherited": false,
-   "configFile": "lakefile.lean"}],
+   "configFile": "lakefile.toml"}],
  "name": "logic",
  "lakeDir": ".lake"}

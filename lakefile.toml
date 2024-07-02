@@ -7,9 +7,9 @@ name = "Logic"
 [[require]]
 name = "batteries"
 git = "https://github.com/leanprover-community/batteries"
-rev = "v4.9.0"
+rev = "main"
 
 [[require]]
 name = "extra"
 git = "https://github.com/fgdorais/extra4"
-rev = "stable"
+rev = "main"

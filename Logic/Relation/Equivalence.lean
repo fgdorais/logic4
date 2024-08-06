@@ -17,7 +17,8 @@ abbrev inferPartialEquivalence [Symmetric r] [Euclidean r] : PartialEquivalence 
   symm := Symmetric.symm
   eucl := Euclidean.eucl
 
-instance [Symmetric r] : PartialEquivalence (TC r) := .mk
+open Relation in
+instance [Symmetric r] : PartialEquivalence (TransGen r) := .mk
 
 namespace PartialEquivalence
 variable {r} [PartialEquivalence r]
@@ -49,7 +50,8 @@ instance (α) : Equivalence (α:=α) (.=.) := .mk
 instance (α) [Setoid α] : Equivalence (α:=α) (.≈.) := .mk
 instance (α) [Setoid α] : Equivalence (α:=α) Setoid.r := .mk
 
-instance [Reflexive r] [Symmetric r] : Equivalence (TC r) := .mk
+open Relation in
+instance [Reflexive r] [Symmetric r] : Equivalence (TransGen r) := .mk
 
 abbrev PartialEquivalence.toSubtype [PartialEquivalence r] : { x // r x x } → { x // r x x } → Prop
 | ⟨x,_⟩, ⟨y,_⟩ => r x y

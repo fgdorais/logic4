@@ -24,8 +24,9 @@ instance (α) : Reflexive (α:=α) (.=.) := ⟨Eq.refl⟩
 instance : Reflexive (.→.) := ⟨@id⟩
 instance : Reflexive (.↔.) := ⟨Iff.refl⟩
 
-instance {α} (r : α → α → Prop) [Reflexive r] : Reflexive (TC r) where
-  refl x := TC.base _ _ (Reflexive.refl x)
+open Relation
+instance {α} (r : α → α → Prop) [Reflexive r] : Reflexive (TransGen r) where
+  refl x := TransGen.single (Reflexive.refl x)
 
 /-! ## Irreflexivity -/
 
@@ -66,17 +67,18 @@ instance (α) [LT α] : HSymmetric (α:=α) (.<.) (.>.) := ⟨id⟩
 instance (α) [LT α] : HSymmetric (α:=α) (.>.) (.<.) := ⟨id⟩
 instance : Symmetric (.↔.) := ⟨Iff.symm⟩
 
-instance {α} (r : α → α → Prop) [Symmetric r] : Symmetric (TC r) where
+open Relation in
+instance {α} (r : α → α → Prop) [Symmetric r] : Symmetric (TransGen r) where
   symm := by
     intros x y hxy
     induction hxy with
-    | base x y h =>
-      apply TC.base
+    | single h =>
+      apply TransGen.single
       exact Symmetric.symm h
-    | trans x y z _ _ hyx hzy =>
-      apply TC.trans
-      exact hzy
-      exact hyx
+    | tail _ h ih =>
+      apply TransGen.trans
+      exact TransGen.single (Symmetric.symm h)
+      exact ih
 
 /-! ## Antiymmetry -/
 
@@ -119,7 +121,9 @@ instance (α) [Setoid α] : Transitive (α:=α) (.≈.) := ⟨Setoid.trans⟩
 instance (α) [Setoid α] : Transitive (α:=α) Setoid.r := ⟨Setoid.trans⟩
 instance : Transitive (.→.) := ⟨fun h₁ h₂ h => h₂ (h₁ h)⟩
 instance : Transitive (.↔.) := ⟨Iff.trans⟩
-instance {α} (r : α → α → Prop) : Transitive (TC r) := ⟨TC.trans _ _ _⟩
+
+open Relation in
+instance {α} (r : α → α → Prop) : Transitive (TransGen r) := ⟨TransGen.trans⟩
 
 instance {α} (r : α → α → Prop) [Irreflexive r] [Transitive r] : Asymmetric r := ⟨fun hxy hyx => Irreflexive.irrfl (Transitive.trans hxy hyx)⟩
 

@@ -39,3 +39,9 @@ elab "right" : tactic => Tactic.withMainContext do
   let gs ← Tactic.right (← Tactic.getMainGoal)
   Term.synthesizeSyntheticMVarsNoPostponing
   Tactic.replaceMainGoal gs
+
+theorem Relation.TransGen.trans {r : α → α → Prop} (hl : TransGen r x y) (hr : TransGen r y z) :
+    TransGen r x z := by
+  induction hr with
+  | single h => exact .tail hl h
+  | tail _ h ih => exact .tail ih h

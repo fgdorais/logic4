@@ -1,15 +1,16 @@
 /-
-Copyright © 2023 François G. Dorais. All rights reserved.
+Copyright © 2024 François G. Dorais. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 -/
 import Logic.Relation.Classes
 import Logic.Relation.Tactics
 
-namespace Logic
+open Logic
+
+namespace Relation
 variable {α} (r : α → α → Prop)
 
 abbrev coRel (x y) := ¬ r y x
-abbrev reflRel (x y) := r x y ∨ x = y
 abbrev asymRel (x y) := r x y ∧ coRel r x y
 abbrev symmRel (x y) := r x y ∧ r y x
 
@@ -164,30 +165,27 @@ variable {r} [self : Quasiorder r]
 
 theorem co_refl (x) : coRel r x x := Irreflexive.irrfl
 
-set_option linter.unusedSectionVars false in
-theorem rc_refl (x) : reflRel r x x := by right; rfl
-
-theorem rc_trans {x y z} : reflRel r x y → reflRel r y z → reflRel r x z := by
+theorem reflGen_trans {x y z} : ReflGen r x y → ReflGen r y z → ReflGen r x z := by
   intro hxy hyz
   match hxy, hyz with
-  | Or.inr rfl, Or.inr rfl => right; rfl
-  | Or.inr rfl, Or.inl hyz => left; exact hyz
-  | Or.inl hxy, Or.inr rfl => left; exact hxy
-  | Or.inl hxy, Or.inl hyz => left; exact Transitive.trans hxy hyz
+  | .refl _, .refl _ => right
+  | .refl _, .incl hyz => left; exact hyz
+  | .incl hxy, .refl _ => left; exact hxy
+  | .incl hxy, .incl hyz => left; exact Transitive.trans hxy hyz
 
-theorem rc_antisymm {x y} : reflRel r x y → reflRel r y x → x = y := by
+theorem reflGen_antisymm {x y} : ReflGen r x y → ReflGen r y x → x = y := by
   intro hxy hyx
   match hxy, hyx with
-  | Or.inr rfl, _ => rfl
-  | _, Or.inr rfl => rfl
-  | Or.inl hxy, Or.inl hyx =>
+  | .refl _, _ => rfl
+  | _, .refl _ => rfl
+  | .incl hxy, .incl hyx =>
     absurd hxy
     exact Asymmetric.asymm hyx
 
-instance : PartialOrder (reflRel r) where
-  refl := Quasiorder.rc_refl
-  trans := Quasiorder.rc_trans
-  antisymm := Quasiorder.rc_antisymm
+instance : PartialOrder (ReflGen r) where
+  refl := ReflGen.refl
+  trans := Quasiorder.reflGen_trans
+  antisymm := Quasiorder.reflGen_antisymm
 
 end Quasiorder
 
@@ -227,25 +225,25 @@ theorem co_antisymm [StableEq α] {x y} : coRel r x y → coRel r y x → x = y 
     | inl hxy => absurd hxy; exact cyx
     | inr hyx => absurd hyx; exact cxy
 
-theorem coRel_iff_reflRel [StableEq α] [ComplementedRel r] (x y) : coRel r x y ↔ reflRel r x y := by
+theorem coRel_iff_reflRel [StableEq α] [ComplementedRel r] (x y) : coRel r x y ↔ ReflGen r x y := by
   constructor
   · intro cxy
     by_cases r x y using Complemented with
     | .isTrue hxy => left; exact hxy
     | .isFalse cyx =>
-      right
+      apply Reflexive.of_eq
       by_contradiction
       | assuming hne =>
         cases Connex.connex (r:=r) hne with
         | inl hxy => absurd cyx; exact hxy
         | inr hyx => absurd cxy; exact hyx
   · intro
-    | .inr rfl => exact Quasiorder.co_refl x
-    | .inl hxy => exact Asymmetric.asymm hxy
+    | .refl _ => exact Quasiorder.co_refl x
+    | .incl h => exact Asymmetric.asymm h
 
-theorem rc_total [ComplementedEq α] (x y) : reflRel r x y ∨ reflRel r y x := by
+theorem rc_total [ComplementedEq α] (x y) : ReflGen r x y ∨ ReflGen r y x := by
   by_cases x = y using Complemented with
-  | .isTrue rfl => left; right; rfl
+  | .isTrue rfl => left; right
   | .isFalse hne =>
     cases Connex.connex (r:=r) hne with
     | inl hxy => left; left; exact hxy
@@ -259,10 +257,8 @@ instance [ComplementedRel r] [StableEq α] : TotalOrder (coRel r) where
   toPartialOrder := inferInstance
   total := LinearQuasiorder.co_total
 
-instance [ComplementedEq α] : TotalOrder (reflRel r) where
+instance [ComplementedEq α] : TotalOrder (ReflGen r) where
   toPartialOrder := inferInstance
   total := LinearOrder.rc_total
 
 end LinearOrder
-
-end Logic

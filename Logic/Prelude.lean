@@ -1,5 +1,5 @@
 /-
-Copyright © 2023 François G. Dorais. All rights reserved.
+Copyright © 2023-2024 François G. Dorais. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 -/
 import Batteries
@@ -39,9 +39,3 @@ elab "right" : tactic => Tactic.withMainContext do
   let gs ← Tactic.right (← Tactic.getMainGoal)
   Term.synthesizeSyntheticMVarsNoPostponing
   Tactic.replaceMainGoal gs
-
-theorem Relation.TransGen.trans {r : α → α → Prop} (hl : TransGen r x y) (hr : TransGen r y z) :
-    TransGen r x z := by
-  induction hr with
-  | single h => exact .tail hl h
-  | tail _ h ih => exact .tail ih h

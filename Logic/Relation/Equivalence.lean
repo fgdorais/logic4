@@ -1,12 +1,14 @@
 /-
-Copyright © 2023 François G. Dorais. All rights reserved.
+Copyright © 2023-2024 François G. Dorais. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 -/
 import Logic.Relation.Classes
 import Logic.Relation.Tactics
 import Logic.Relation.Order
 
-namespace Logic
+open Logic
+
+namespace Relation
 variable {α} (r : α → α → Prop)
 
 class abbrev PartialEquivalence : Prop := Symmetric r, Euclidean r
@@ -104,5 +106,3 @@ end TightApartness
 instance [ComplementedEq α] : TightApartness (α:=α) (.≠.) where
   toApartness := Equivalence.toApartness _
   tight := Stable.by_contradiction
-
-end Logic

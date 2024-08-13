@@ -1,11 +1,14 @@
 /-
-Copyright © 2023 François G. Dorais. All rights reserved.
+Copyright © 2023-2024 François G. Dorais. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 -/
 import Logic.Basic
 import Logic.Proposition.Lemmas
+import Logic.Relation.Basic
 
-namespace Logic
+open Logic
+
+namespace Relation
 
 /-! ## Reflexivity -/
 
@@ -24,7 +27,13 @@ instance (α) : Reflexive (α:=α) (.=.) := ⟨Eq.refl⟩
 instance : Reflexive (.→.) := ⟨@id⟩
 instance : Reflexive (.↔.) := ⟨Iff.refl⟩
 
-open Relation
+instance (r : α → α → Prop) : Reflexive (ReflGen r) := ⟨ReflGen.refl⟩
+
+instance (r : α → α → Prop) : Reflexive (EquivGen r) := ⟨EquivGen.refl⟩
+
+instance {α} (r : α → α → Prop) [Reflexive r] : Reflexive (SymmGen r) where
+  refl x := SymmGen.incl (Reflexive.refl x)
+
 instance {α} (r : α → α → Prop) [Reflexive r] : Reflexive (TransGen r) where
   refl x := TransGen.single (Reflexive.refl x)
 
@@ -67,7 +76,12 @@ instance (α) [LT α] : HSymmetric (α:=α) (.<.) (.>.) := ⟨id⟩
 instance (α) [LT α] : HSymmetric (α:=α) (.>.) (.<.) := ⟨id⟩
 instance : Symmetric (.↔.) := ⟨Iff.symm⟩
 
-open Relation in
+instance {α} (r : α → α → Prop) : Symmetric (SymmGen r) := ⟨SymmGen.symm⟩
+
+instance {α} (r : α → α → Prop) : Symmetric (PartialEquivGen r) := ⟨PartialEquivGen.symm⟩
+
+instance {α} (r : α → α → Prop) : Symmetric (EquivGen r) := ⟨EquivGen.symm⟩
+
 instance {α} (r : α → α → Prop) [Symmetric r] : Symmetric (TransGen r) where
   symm := by
     intros x y hxy
@@ -122,8 +136,11 @@ instance (α) [Setoid α] : Transitive (α:=α) Setoid.r := ⟨Setoid.trans⟩
 instance : Transitive (.→.) := ⟨fun h₁ h₂ h => h₂ (h₁ h)⟩
 instance : Transitive (.↔.) := ⟨Iff.trans⟩
 
-open Relation in
 instance {α} (r : α → α → Prop) : Transitive (TransGen r) := ⟨TransGen.trans⟩
+
+instance {α} (r : α → α → Prop) : Transitive (PartialEquivGen r) := ⟨PartialEquivGen.trans⟩
+
+instance {α} (r : α → α → Prop) : Transitive (EquivGen r) := ⟨EquivGen.trans⟩
 
 instance {α} (r : α → α → Prop) [Irreflexive r] [Transitive r] : Asymmetric r := ⟨fun hxy hyx => Irreflexive.irrfl (Transitive.trans hxy hyx)⟩
 

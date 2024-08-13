@@ -1,5 +1,5 @@
 /-
-Copyright © 2023 François G. Dorais. All rights reserved.
+Copyright © 2023-2024 François G. Dorais. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 -/
 import Logic.Prelude
@@ -29,6 +29,7 @@ abbrev All.head : All (a :: as) → a
 abbrev All.tail : All (a :: as) → All as
   | cons _ h => h
 
+@[simp]
 theorem all_nil_eq : All [] = True :=
   propext ⟨fun _ => trivial, fun _ => All.nil⟩
 
@@ -40,7 +41,7 @@ inductive Any : List Prop → Prop
 | head : a → Any (a :: as)
 | tail : Any as → Any (a :: as)
 
-set_option pp.all true in
+@[simp]
 theorem any_nil_eq : Any [] = False :=
   propext ⟨(nomatch .), False.elim⟩
 

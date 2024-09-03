@@ -164,6 +164,7 @@ variable {r} [self : Quasiorder r]
 
 theorem co_refl (x) : coRel r x x := Irreflexive.irrfl
 
+set_option linter.unusedSectionVars false in
 theorem rc_refl (x) : reflRel r x x := by right; rfl
 
 theorem rc_trans {x y z} : reflRel r x y → reflRel r y z → reflRel r x z := by

@@ -23,12 +23,6 @@ theorem SymmGen.symm {r : α → α → Prop} (h : SymmGen r x y) : SymmGen r y 
 
 abbrev TransGen.incl {r : α → α → Prop} (h : r x y) : TransGen r x y := TransGen.single h
 
-theorem TransGen.trans {r : α → α → Prop} (hl : TransGen r x y) (hr : TransGen r y z) :
-    TransGen r x z := by
-  induction hr with
-  | single h => exact .tail hl h
-  | tail _ h ih => exact .tail ih h
-
 theorem TransGen.recAuxOn {r : α → α → Prop} {motive : (a₀ a₁ : α) → TransGen r a₀ a₁ → Prop}
     (t : TransGen r a₀ a₁) (incl : {a₀ a₁ : α} → (h : r a₀ a₁) → motive a₀ a₁ (TransGen.incl h))
     (trans : {a₀ a₁ a₂ : α} → (hl : TransGen r a₀ a₁) → (hr : TransGen r a₁ a₂) →

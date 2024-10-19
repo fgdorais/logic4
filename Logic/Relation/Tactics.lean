@@ -24,8 +24,3 @@ syntax "antisymmetry" "using" term:max ("," term:max)? : tactic
 macro_rules
 | `(tactic| antisymmetry using $r) => `(tactic| apply Relation.Antisymmetric.antisymm (r:=$r))
 | `(tactic| antisymmetry using $r, $s) => `(tactic| apply Relation.HAntisymmetric.antisymm (r:=$r) (s:=$s))
-
-syntax "transitivity" term:max ("using" term:max ("," term:max)?)? : tactic
-macro_rules
-| `(tactic| transitivity $y using $r) => `(tactic| apply Relation.Transitive.trans (r:=$r) (y:=$y))
-| `(tactic| transitivity $y using $r, $s) => `(tactic| apply Relation.HTransitive.trans (r:=$r) (s:=$s) (y:=$y))

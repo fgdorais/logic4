@@ -27,6 +27,5 @@ macro_rules
 
 syntax "transitivity" term:max ("using" term:max ("," term:max)?)? : tactic
 macro_rules
-| `(tactic| transitivity $y) => `(tactic| apply Relation.HTransitive.trans (y:=$y))
 | `(tactic| transitivity $y using $r) => `(tactic| apply Relation.Transitive.trans (r:=$r) (y:=$y))
 | `(tactic| transitivity $y using $r, $s) => `(tactic| apply Relation.HTransitive.trans (r:=$r) (s:=$s) (y:=$y))

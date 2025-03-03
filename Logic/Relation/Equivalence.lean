@@ -91,7 +91,7 @@ def Equivalence.toApartness [Equivalence r] [ComplementedRel r] : Apartness (¬ 
       exact hxz
       exact hzy
 
-class TightApartness extends Apartness r : Prop where
+class TightApartness : Prop extends Apartness r where
   protected tight {x y} : ¬r x y → x = y
 
 namespace TightApartness

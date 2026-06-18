@@ -1,3 +1,5 @@
+This repo has been moved to [lean4-exp/Logic](https://github.com/fgdorais/lean4-exp/tree/main/Logic).
+----
 # logic4
 
 Logic library for Lean 4.
